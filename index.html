@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            background-color: #fdf2f8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h1 {
+            margin: 5px 0 10px 0;
+            font-size: clamp(28px, 4vw, 38px);
+            color: #ff3366;
+            text-shadow: 2px 2px 6px #ff99aa;
+            padding: 0 10px;
+            line-height: 1.2;
+        }
+        
+        #messageContainer {
+            margin: 5px auto;
+            padding: 10px 20px;
+            /* Instead of display: none, make it invisible but keep its space */
+            visibility: hidden;
+            opacity: 0;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+            min-width: fit-content;
+            max-width: 90%;
+            width: 300px; /* Initial fixed width */
+            z-index: 10;
+            height: 80px; /* Fixed height instead of min-height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        .love-message {
+            font-size: clamp(24px, 3.5vw, 36px);
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+            transition: all 1s ease;
+            word-wrap: break-word;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.5px;
+        }
+        
+        #imageContainer {
+            margin: 10px auto;
+            padding: 15px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 0 25px #ff6699;
+            display: inline-block;
+            max-width: 90%;
+            width: 500px; /* Initial reasonable width */
+            min-width: 300px;
+        }
+        
+        #valentineImage {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            max-height: 50vh;
+            object-fit: contain;
+            border-radius: 15px;
+            display: block;
+        }
+        
+        #buttons {
+            margin: 15px auto;
+            padding: 0 10px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            margin: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        #yesBtn {
+            background-color: #ff3366;
+            color: white;
+            box-shadow: 0 0 15px #ff6699;
+        }
+        
+        #yesBtn:hover {
+            transform: scale(1.05);
+            background-color: #ff0066;
+        }
+        
+        #noBtn {
+            background-color: #333;
+            color: white;
+            box-shadow: 0 0 15px #999;
+            position: relative;
+        }
+        
+        #noBtn:hover {
+            transform: scale(1.05);
+        }
+        
+        .show-message {
+            visibility: visible !important;
+            opacity: 1 !important;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-height: 700px) {
+            #valentineImage {
+                max-height: 45vh;
+            }
+            
+            h1 {
+                margin: 3px 0 8px 0;
+                font-size: 26px;
+            }
+            
+            #imageContainer {
+                margin: 8px auto;
+                padding: 12px;
+            }
+            
+            .love-message {
+                font-size: 22px;
+                padding: 6px 12px;
+            }
+            
+            #messageContainer {
+                height: 70px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            #messageContainer {
+                margin: 3px auto 10px auto;
+                padding: 8px 12px;
+                height: 65px;
+                width: 280px;
+            }
+            
+            .love-message {
+                font-size: 20px;
+                padding: 6px 10px;
+                white-space: normal;
+            }
+            
+            #imageContainer {
+                padding: 12px;
+                margin: 8px auto;
+                max-width: 95%;
+                width: 350px;
+            }
+            
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            h1 {
+                font-size: 24px;
+                margin: 3px 0 6px 0;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            #valentineImage {
+                max-height: 40vh;
+            }
+            
+            .love-message {
+                font-size: 18px;
+                white-space: normal;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            #messageContainer {
+                height: 60px;
+                width: 250px;
+            }
+            
+            #imageContainer {
+                width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Would you be my Valentine?</h1>
+        
+        <!-- Love message container - Space is reserved but invisible -->
+        <div id="messageContainer">
+            <div class="love-message"></div>
+        </div>
+        
+        <!-- Image inside container -->
+        <div id="imageContainer">
+            <img id="valentineImage" src="C:/Users/DELL/Pictures/1.jpg" alt="Romantic Image">
+        </div>
+        
+        <!-- Buttons below image -->
+        <div id="buttons">
+            <button id="yesBtn">Yes 💗</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+    
+    <script>
+        const yesBtn = document.getElementById("yesBtn");
+        const noBtn = document.getElementById("noBtn");
+        const messageContainer = document.getElementById("messageContainer");
+        const loveMessage = document.querySelector('.love-message');
+        const valentineImage = document.getElementById("valentineImage");
+        const imageContainer = document.getElementById("imageContainer");
+        
+        // Slideshow of images
+       // const backgrounds = [
+        //     "C:/Users/DELL/Pictures/1.jpg",
+        //     "C:/Users/DELL/Pictures/2.jpg",
+        //     "C:/Users/DELL/Pictures/3.jpg",
+        //     "C:/Users/DELL/Pictures/4.jpg",
+        //     "C:/Users/DELL/Pictures/5.jpg",
+        //     "C:/Users/DELL/Pictures/6.jpeg",
+        //     "C:/Users/DELL/Pictures/7.jpeg",
+        //     "C:/Users/DELL/Pictures/8.jpeg",
+        //     "C:/Users/DELL/Pictures/9.jpeg",
+        //     "C:/Users/DELL/Pictures/10.jpeg",
+        //     "C:/Users/DELL/Pictures/11.jpeg",
+        //     "C:/Users/DELL/Pictures/12.jpeg"
+
+        // ];
+
+        const backgrounds = [
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/1.jpg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/2.jpg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/3.jpg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/4.jpg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/5.jpg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/6.jpeg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/7.jpeg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/8.jpeg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/9.jpeg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/10.jpeg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/11.jpeg",
+        "https://raw.githubusercontent.com/sudhirwakchoure/love/main/12.jpeg"
+        ];
+        
+        // Different love messages
+        const loveMessages = [
+            "I love you Roshani❤️",
+            "You're my everything💕",
+            "My heart beats for you💓",
+            "Forever yours💝",
+            "You complete me✨",
+            "My beautiful Valentine🌹",
+            "Together forever💑",
+            "You're my dream come true🌟",
+            "My love for you is eternal💖",
+            "You stole my heart💘",
+            "Can't live without you💞",
+            "You're my sunshine☀️",
+            "My one and only💎",
+            "Love you endlessly💫"
+        ];
+        
+        let imageIndex = 0;
+        let messageIndex = 0;
+        let messageInterval;
+        let styleIndex = 0;
+        let colorIndex = 0;
+        
+        // Lovable colors for the message
+        const messageColors = [
+            "#ff3366", "#ff0066", "#ff1493", "#ff69b4", "#ff33cc",
+            "#ff00ff", "#ff66b2", "#ff3388", "#ff007f", "#ff3399",
+            "#ff33aa", "#ff0088", "#ff3377", "#ff0055", "#ff2266",
+            "#e60073", "#cc0066", "#b30059"
+        ];
+        
+        // Different message styles - IMPROVED FOR BETTER READABILITY
+        const messageStyles = [
+            "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", // Clean and modern
+            "'Georgia', 'Times New Roman', Times, serif",      // Classic and elegant
+            "'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif", // Bold and clear
+            "'Courier New', Courier, monospace",               // Distinct and readable
+            "'Palatino Linotype', 'Book Antiqua', Palatino, serif", // Romantic and classic
+            "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif", // Clean and friendly
+            "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif", // Strong and clear
+            "'Lucida Console', 'Monaco', monospace"            // Distinct and techy
+        ];
+        
+        function changeImage() {
+            valentineImage.src = backgrounds[imageIndex];
+            imageIndex = (imageIndex + 1) % backgrounds.length;
+        }
+        
+        // Start image slideshow (changes every 3 seconds)
+        setInterval(changeImage, 3000);
+        
+        function getRandomTime() {
+            return Math.floor(Math.random() * 1000) + 3000;
+        }
+        
+        function updateMessageAndImage() {
+            // Cycle to next message
+            messageIndex = (messageIndex + 1) % loveMessages.length;
+            loveMessage.textContent = loveMessages[messageIndex];
+            
+            // Adjust container width to fit text
+            adjustMessageWidth();
+            
+            // Cycle through colors
+            colorIndex = (colorIndex + 1) % messageColors.length;
+            
+            // Cycle through font styles
+            styleIndex = (styleIndex + 1) % messageStyles.length;
+            
+            // Apply new style with better contrast
+            loveMessage.style.color = messageColors[colorIndex];
+            // Use darker background for better contrast
+            const bgColor = messageColors[colorIndex] + "30"; // 30 for more opacity
+            loveMessage.style.backgroundColor = bgColor;
+            // Add stronger shadow for better readability
+            loveMessage.style.boxShadow = `0 0 20px ${messageColors[colorIndex]}80`;
+            loveMessage.style.fontFamily = messageStyles[styleIndex];
+            
+            // Also update container shadow
+            messageContainer.style.boxShadow = `0 0 30px ${messageColors[colorIndex]}`;
+            
+            // Change image
+            changeImage();
+            
+            // Schedule next update
+            clearTimeout(messageInterval);
+            messageInterval = setTimeout(updateMessageAndImage, getRandomTime());
+        }
+        
+        function adjustMessageWidth() {
+            // Only adjust if message is visible
+            if (messageContainer.classList.contains('show-message')) {
+                const textWidth = loveMessage.scrollWidth;
+                const containerWidth = Math.min(textWidth + 40, window.innerWidth * 0.9);
+                messageContainer.style.width = containerWidth + 'px';
+                
+                // Adjust image container to match message width
+                const imageWidth = Math.min(containerWidth + 40, window.innerWidth * 0.85);
+                imageContainer.style.maxWidth = imageWidth + 'px';
+            }
+        }
+        
+        function adjustLayout() {
+            const viewportHeight = window.innerHeight;
+            const totalContentHeight = document.querySelector('.container').scrollHeight;
+            
+            // Set image container to reasonable size based on viewport
+            const viewportWidth = window.innerWidth;
+            const imageContainerWidth = Math.min(500, viewportWidth * 0.85);
+            imageContainer.style.width = imageContainerWidth + 'px';
+            
+            if (totalContentHeight > viewportHeight) {
+                // Reduce image max height if needed
+                const currentMaxHeight = parseInt(getComputedStyle(valentineImage).maxHeight) || 50;
+                const newHeight = Math.max(30, currentMaxHeight - 10);
+                valentineImage.style.maxHeight = newHeight + 'vh';
+                
+                // Reduce margins further
+                document.querySelector('.container').style.gap = '5px';
+            }
+            
+            // Adjust message width if visible
+            adjustMessageWidth();
+        }
+        
+        yesBtn.addEventListener("click", () => {
+            // Show the message container with fade-in effect
+            messageContainer.classList.add('show-message');
+            
+            // Set initial message
+            messageIndex = 0;
+            loveMessage.textContent = loveMessages[messageIndex];
+            
+            // Apply initial style with better readability
+            loveMessage.style.color = messageColors[colorIndex];
+            loveMessage.style.backgroundColor = messageColors[colorIndex] + "30"; // More opacity
+            loveMessage.style.boxShadow = `0 0 20px ${messageColors[colorIndex]}80`; // Stronger shadow
+            loveMessage.style.fontFamily = messageStyles[styleIndex];
+            // Add text shadow for better readability
+            loveMessage.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.3)";
+            messageContainer.style.boxShadow = `0 0 30px ${messageColors[colorIndex]}`;
+            
+            // Adjust message width to fit text
+            setTimeout(() => {
+                adjustMessageWidth();
+                adjustLayout();
+            }, 100);
+            
+            // Change button text and disable buttons
+            yesBtn.textContent = "You said YES! 💕";
+            yesBtn.style.backgroundColor = "#ff0066";
+            yesBtn.disabled = true;
+            noBtn.style.display = "none";
+            
+            // Start changing message
+            messageInterval = setTimeout(updateMessageAndImage, getRandomTime());
+        });
+        
+        noBtn.addEventListener("mouseover", () => {
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+            
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            noBtn.style.position = "fixed";
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        });
+        
+        // Adjust layout on window resize
+        window.addEventListener('resize', adjustLayout);
+        
+        // Preload images
+        function preloadImages() {
+            for (let i = 0; i < backgrounds.length; i++) {
+                const img = new Image();
+                img.src = backgrounds[i];
+                img.onload = function() {
+                    // Adjust layout after each image loads
+                    adjustLayout();
+                };
+            }
+        }
+        
+        // Initial setup
+        window.addEventListener('load', () => {
+            // Set initial image container size
+            const viewportWidth = window.innerWidth;
+            const imageContainerWidth = Math.min(500, viewportWidth * 0.85);
+            imageContainer.style.width = imageContainerWidth + 'px';
+            
+            // Set message container initial width
+            messageContainer.style.width = Math.min(300, viewportWidth * 0.7) + 'px';
+            
+            // Adjust layout
+            setTimeout(adjustLayout, 100);
+            setTimeout(adjustLayout, 500); // Another adjustment after images load
+        });
+        
+        // Also adjust on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial reasonable sizes
+            const viewportWidth = window.innerWidth;
+            imageContainer.style.width = Math.min(500, viewportWidth * 0.85) + 'px';
+            messageContainer.style.width = Math.min(300, viewportWidth * 0.7) + 'px';
+        });
+        
+        // Start preloading images
+        preloadImages();
+    </script>
+</body>
+</html>
