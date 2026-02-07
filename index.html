@@ -87,6 +87,20 @@
             max-width: 90%;
             width: 500px;
             min-width: 300px;
+            min-height: 200px;
+            position: relative;
+        }
+        
+        .media-wrapper {
+            width: 100%;
+            height: auto;
+            max-height: 50vh;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         #valentineMedia {
@@ -97,6 +111,16 @@
             object-fit: contain;
             border-radius: 15px;
             display: block;
+        }
+        
+        #currentVideo {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            max-height: 50vh;
+            object-fit: contain;
+            border-radius: 15px;
+            display: none;
         }
         
         #buttons {
@@ -211,7 +235,11 @@
         
         /* Responsive adjustments */
         @media (max-height: 700px) {
-            #valentineMedia {
+            .media-wrapper {
+                max-height: 45vh;
+            }
+            
+            #valentineMedia, #currentVideo {
                 max-height: 45vh;
             }
             
@@ -243,7 +271,6 @@
         @media (max-width: 768px) {
             body {
                 padding: 10px;
-                overflow: hidden;
             }
             
             #buttons {
@@ -303,7 +330,11 @@
         }
         
         @media (max-width: 480px) {
-            #valentineMedia {
+            .media-wrapper {
+                max-height: 40vh;
+            }
+            
+            #valentineMedia, #currentVideo {
                 max-height: 40vh;
             }
             
@@ -377,7 +408,10 @@
         
         <!-- Media container (for images and videos) -->
         <div id="mediaContainer">
-            <img id="valentineMedia" src="https://raw.githubusercontent.com/sudhirwakchoure/love/main/1.jpg" alt="Romantic Media">
+            <div class="media-wrapper">
+                <img id="valentineMedia" src="https://raw.githubusercontent.com/sudhirwakchoure/love/main/1.jpg" alt="Romantic Media">
+                <video id="currentVideo" controls></video>
+            </div>
             
             <!-- Media controls -->
             <div class="media-controls" id="mediaControls">
@@ -403,6 +437,7 @@
         const messageContainer = document.getElementById("messageContainer");
         const loveMessage = document.querySelector('.love-message');
         const valentineMedia = document.getElementById("valentineMedia");
+        const currentVideo = document.getElementById("currentVideo");
         const mediaContainer = document.getElementById("mediaContainer");
         const buttonsContainer = document.getElementById("buttons");
         const mediaControls = document.getElementById("mediaControls");
@@ -417,7 +452,7 @@
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
-        // Media sources - FIXED: Removed video files from images array
+        // Media sources
         const images = [
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/1.jpg",
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/2.jpg",
@@ -435,7 +470,6 @@
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/14.jpeg"
         ];
         
-        // Video sources - FIXED: Use relative paths for web compatibility
         const videos = [
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/v1.mp4",
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/v2.mp4"
@@ -468,7 +502,6 @@
         let mediaInterval;
         let isPlaying = true;
         let isMuted = false;
-        let currentVideo = null;
         let videoEnded = false;
         
         // Lovable colors for the message
@@ -496,12 +529,6 @@
                 // Show next image
                 currentMediaIndex = (currentMediaIndex + 1) % images.length;
                 valentineMedia.src = images[currentMediaIndex];
-                valentineMedia.style.display = 'block';
-                
-                // Hide video controls if showing images
-                playPauseBtn.style.display = 'none';
-                muteBtn.style.display = 'none';
-                nextVideoBtn.style.display = 'none';
             }
         }
         
@@ -510,59 +537,54 @@
             if (isShowingImages) {
                 // Change image every 3 seconds
                 mediaInterval = setInterval(changeMedia, 3000);
-            } else {
-                // For videos, we don't auto-change
-                // Just show the first video
-                showVideo();
             }
         }
         
         function showVideo() {
-            // Remove previous video if exists
-            if (currentVideo) {
-                currentVideo.remove();
-            }
-            
-            // Create video element
-            currentVideo = document.createElement('video');
-            currentVideo.id = 'currentVideo';
+            // Set video source
             currentVideo.src = videos[currentMediaIndex];
-            currentVideo.controls = true;
             currentVideo.muted = isMuted;
-            currentVideo.autoplay = true;
-            currentVideo.loop = false; // Don't loop - play once
-            currentVideo.style.width = '100%';
-            currentVideo.style.height = 'auto';
-            currentVideo.style.maxHeight = '50vh';
-            currentVideo.style.objectFit = 'contain';
-            currentVideo.style.borderRadius = '15px';
-            currentVideo.style.display = 'block';
+            currentVideo.loop = false;
             
-            // Add event listener for when video ends
-            currentVideo.addEventListener('ended', handleVideoEnded);
-            
-            // Replace image with video
+            // Show video, hide image
             valentineMedia.style.display = 'none';
-            mediaContainer.insertBefore(currentVideo, mediaControls);
+            currentVideo.style.display = 'block';
             
             // Show video controls
             playPauseBtn.style.display = 'inline-block';
             muteBtn.style.display = 'inline-block';
-            nextVideoBtn.style.display = 'inline-block';
+            nextVideoBtn.style.display = videos.length > 1 ? 'inline-block' : 'none';
             
-            // Update button text based on current state
+            // Update button text
             playPauseBtn.textContent = '⏸️ Pause';
             muteBtn.textContent = isMuted ? '🔊 Unmute' : '🔇 Mute';
-            nextVideoBtn.textContent = '⏭️ Next Video';
             
             // Reset video ended flag
             videoEnded = false;
             isPlaying = true;
+            
+            // Play the video
+            currentVideo.play().catch(e => {
+                console.log("Auto-play prevented:", e);
+                playPauseBtn.textContent = '▶️ Play';
+                isPlaying = false;
+            });
+            
+            // Add ended event listener
+            currentVideo.onended = handleVideoEnded;
         }
         
         function handleVideoEnded() {
             videoEnded = true;
             playPauseBtn.textContent = '▶️ Play Again';
+            
+            // Auto-play next video after current video ends
+            if (videos.length > 1) {
+                setTimeout(() => {
+                    currentMediaIndex = (currentMediaIndex + 1) % videos.length;
+                    showVideo();
+                }, 1000);
+            }
         }
         
         function getRandomTime() {
@@ -617,26 +639,9 @@
         }
         
         function adjustLayout() {
-            const viewportHeight = window.innerHeight;
-            const totalContentHeight = document.querySelector('.container').scrollHeight;
-            
-            // Set media container to reasonable size based on viewport
             const viewportWidth = window.innerWidth;
             const mediaContainerWidth = Math.min(500, viewportWidth * 0.85);
             mediaContainer.style.width = mediaContainerWidth + 'px';
-            
-            if (totalContentHeight > viewportHeight) {
-                // Reduce media max height if needed
-                const currentMaxHeight = parseInt(getComputedStyle(valentineMedia).maxHeight) || 50;
-                const newHeight = Math.max(30, currentMaxHeight - 10);
-                valentineMedia.style.maxHeight = newHeight + 'vh';
-                if (currentVideo) {
-                    currentVideo.style.maxHeight = newHeight + 'vh';
-                }
-                
-                // Reduce margins further
-                document.querySelector('.container').style.gap = '5px';
-            }
             
             // Adjust message width if visible
             adjustMessageWidth();
@@ -644,7 +649,7 @@
         
         // Media control functions
         function togglePlayPause() {
-            if (currentVideo) {
+            if (!isShowingImages) {
                 if (videoEnded) {
                     // If video has ended, restart it
                     currentVideo.currentTime = 0;
@@ -665,7 +670,7 @@
         }
         
         function toggleMute() {
-            if (currentVideo) {
+            if (!isShowingImages) {
                 currentVideo.muted = !currentVideo.muted;
                 isMuted = currentVideo.muted;
                 muteBtn.textContent = isMuted ? '🔊 Unmute' : '🔇 Mute';
@@ -685,13 +690,9 @@
             showImagesBtn.disabled = true;
             showVideosBtn.disabled = false;
             
-            // Remove video if it exists
-            if (currentVideo) {
-                currentVideo.remove();
-                currentVideo = null;
-            }
-            
-            // Show the image
+            // Hide video, show image
+            currentVideo.style.display = 'none';
+            currentVideo.pause();
             valentineMedia.style.display = 'block';
             valentineMedia.src = images[currentMediaIndex % images.length];
             
@@ -713,8 +714,11 @@
             // Reset to first video
             currentMediaIndex = 0;
             
-            // Start video display
-            startMediaSlideshow();
+            // Show video
+            showVideo();
+            
+            // Stop image slideshow
+            clearInterval(mediaInterval);
         }
         
         // Improved mobile movement for NO button
@@ -838,18 +842,6 @@
             noBtn.classList.remove('no-btn-mobile');
         });
         
-        // Preload images
-        function preloadImages() {
-            for (let i = 0; i < images.length; i++) {
-                const img = new Image();
-                img.src = images[i];
-                img.onload = function() {
-                    // Adjust layout after each image loads
-                    adjustLayout();
-                };
-            }
-        }
-        
         // Initial setup
         window.addEventListener('load', () => {
             // Set initial media container size
@@ -869,13 +861,6 @@
             
             // Disable images button since we start with images
             showImagesBtn.disabled = true;
-            
-            // Log device info for debugging
-            console.log("Device Info:", {
-                isMobile: isMobile,
-                isTouchDevice: isTouchDevice,
-                userAgent: navigator.userAgent
-            });
         });
         
         // Also adjust on DOMContentLoaded
@@ -885,9 +870,6 @@
             mediaContainer.style.width = Math.min(500, viewportWidth * 0.85) + 'px';
             messageContainer.style.width = Math.min(300, viewportWidth * 0.7) + 'px';
         });
-        
-        // Start preloading images
-        preloadImages();
     </script>
 </body>
 </html>
