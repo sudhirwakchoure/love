@@ -47,7 +47,6 @@
         #messageContainer {
             margin: 5px auto;
             padding: 10px 20px;
-            /* Instead of display: none, make it invisible but keep its space */
             visibility: hidden;
             opacity: 0;
             border-radius: 15px;
@@ -55,9 +54,9 @@
             box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
             min-width: fit-content;
             max-width: 90%;
-            width: 300px; /* Initial fixed width */
+            width: 300px;
             z-index: 10;
-            height: 80px; /* Fixed height instead of min-height */
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -78,7 +77,7 @@
             letter-spacing: 0.5px;
         }
         
-        #imageContainer {
+        #mediaContainer {
             margin: 10px auto;
             padding: 15px;
             background: #fff;
@@ -86,11 +85,11 @@
             box-shadow: 0 0 25px #ff6699;
             display: inline-block;
             max-width: 90%;
-            width: 500px; /* Initial reasonable width */
+            width: 500px;
             min-width: 300px;
         }
         
-        #valentineImage {
+        #valentineMedia {
             width: 100%;
             height: auto;
             max-width: 100%;
@@ -143,7 +142,6 @@
             box-shadow: 0 0 15px #999;
             position: relative;
             z-index: 10;
-            /* Ensure it's always visible */
             visibility: visible !important;
             opacity: 1 !important;
         }
@@ -170,9 +168,50 @@
             100% { transform: scale(1); }
         }
         
+        /* Media controls */
+        .media-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .media-btn {
+            background-color: #ff3366;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .media-btn:hover {
+            background-color: #ff0066;
+            transform: scale(1.05);
+        }
+        
+        .media-type {
+            font-size: 12px;
+            color: #ff3366;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        
+        .next-video-btn {
+            background-color: #4CAF50;
+            margin-top: 10px;
+        }
+        
+        .next-video-btn:hover {
+            background-color: #45a049;
+        }
+        
         /* Responsive adjustments */
         @media (max-height: 700px) {
-            #valentineImage {
+            #valentineMedia {
                 max-height: 45vh;
             }
             
@@ -181,7 +220,7 @@
                 font-size: 26px;
             }
             
-            #imageContainer {
+            #mediaContainer {
                 margin: 8px auto;
                 padding: 12px;
             }
@@ -194,12 +233,17 @@
             #messageContainer {
                 height: 70px;
             }
+            
+            .media-controls {
+                margin-top: 8px;
+                gap: 10px;
+            }
         }
         
         @media (max-width: 768px) {
             body {
                 padding: 10px;
-                overflow: hidden; /* Prevent scrolling issues */
+                overflow: hidden;
             }
             
             #buttons {
@@ -209,12 +253,10 @@
             }
             
             #noBtn {
-                /* Make sure NO button is always visible on mobile */
                 position: relative;
                 z-index: 100;
-                /* FIXED: Use exact same size as desktop */
-                padding: 10px 20px !important;
-                font-size: 16px !important;
+                padding: 12px 25px;
+                font-size: 18px;
                 min-width: auto;
                 min-height: auto;
             }
@@ -232,7 +274,7 @@
                 white-space: normal;
             }
             
-            #imageContainer {
+            #mediaContainer {
                 padding: 12px;
                 margin: 8px auto;
                 max-width: 95%;
@@ -240,20 +282,28 @@
             }
             
             button {
-                /* FIXED: Use smaller size on mobile to match desktop appearance */
-                padding: 10px 20px !important;
-                font-size: 16px !important;
-                margin: 5px;
+                padding: 12px 25px;
+                font-size: 18px;
+                margin: 8px;
             }
             
             h1 {
                 font-size: 24px;
                 margin: 3px 0 6px 0;
             }
+            
+            .media-controls {
+                gap: 8px;
+            }
+            
+            .media-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
         }
         
         @media (max-width: 480px) {
-            #valentineImage {
+            #valentineMedia {
                 max-height: 40vh;
             }
             
@@ -271,38 +321,42 @@
                 width: 250px;
             }
             
-            #imageContainer {
+            #mediaContainer {
                 width: 300px;
                 margin: 5px auto;
             }
             
             #buttons {
-                margin: 5px auto;
+                margin: 8px auto;
                 min-height: 90px;
             }
             
             button {
-                /* FIXED: Use smaller size on mobile to match desktop appearance */
-                padding: 8px 16px !important;
-                font-size: 15px !important;
-                margin: 5px;
+                padding: 12px 25px;
+                font-size: 18px;
+                margin: 8px;
             }
             
             #noBtn {
-                /* FIXED: Use exact same styling */
-                padding: 8px 16px !important;
-                font-size: 15px !important;
+                padding: 12px 25px;
+                font-size: 18px;
                 min-width: auto;
                 min-height: auto;
+            }
+            
+            .media-controls {
+                gap: 6px;
+            }
+            
+            .media-btn {
+                padding: 5px 10px;
+                font-size: 12px;
             }
         }
         
         @media (hover: none) and (pointer: coarse) {
-            /* Styles for touch devices */
             #noBtn {
-                /* FIXED: Remove mobile-specific sizing */
-                padding: 8px 16px !important;
-                font-size: 15px !important;
+                padding: 12px 25px;
             }
             
             #noBtn:active {
@@ -321,12 +375,22 @@
             <div class="love-message"></div>
         </div>
         
-        <!-- Image inside container -->
-        <div id="imageContainer">
-            <img id="valentineImage" src="https://raw.githubusercontent.com/sudhirwakchoure/love/main/1.jpg" alt="Romantic Image">
+        <!-- Media container (for images and videos) -->
+        <div id="mediaContainer">
+            <img id="valentineMedia" src="https://raw.githubusercontent.com/sudhirwakchoure/love/main/1.jpg" alt="Romantic Media">
+            
+            <!-- Media controls -->
+            <div class="media-controls" id="mediaControls">
+                <button class="media-btn" id="playPauseBtn" style="display: none;">⏸️ Pause</button>
+                <button class="media-btn" id="muteBtn" style="display: none;">🔇 Mute</button>
+                <button class="media-btn" id="nextVideoBtn" style="display: none;">⏭️ Next Video</button>
+                <button class="media-btn" id="showImagesBtn">📷 Show Images</button>
+                <button class="media-btn" id="showVideosBtn">🎥 Show Videos</button>
+            </div>
+            <div class="media-type" id="mediaType">Currently: Images</div>
         </div>
         
-        <!-- Buttons below image -->
+        <!-- Buttons below media -->
         <div id="buttons">
             <button id="yesBtn">Yes 💗</button>
             <button id="noBtn">No</button>
@@ -338,16 +402,23 @@
         const noBtn = document.getElementById("noBtn");
         const messageContainer = document.getElementById("messageContainer");
         const loveMessage = document.querySelector('.love-message');
-        const valentineImage = document.getElementById("valentineImage");
-        const imageContainer = document.getElementById("imageContainer");
+        const valentineMedia = document.getElementById("valentineMedia");
+        const mediaContainer = document.getElementById("mediaContainer");
         const buttonsContainer = document.getElementById("buttons");
+        const mediaControls = document.getElementById("mediaControls");
+        const playPauseBtn = document.getElementById("playPauseBtn");
+        const muteBtn = document.getElementById("muteBtn");
+        const nextVideoBtn = document.getElementById("nextVideoBtn");
+        const showImagesBtn = document.getElementById("showImagesBtn");
+        const showVideosBtn = document.getElementById("showVideosBtn");
+        const mediaType = document.getElementById("mediaType");
         
         // Detect if user is on mobile
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         
-        // Slideshow of images
-        const backgrounds = [
+        // Media sources - FIXED: Removed video files from images array
+        const images = [
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/1.jpg",
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/2.jpg",
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/3.jpg",
@@ -359,7 +430,15 @@
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/9.jpeg",
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/10.jpeg",
             "https://raw.githubusercontent.com/sudhirwakchoure/love/main/11.jpeg",
-            "https://raw.githubusercontent.com/sudhirwakchoure/love/main/12.jpeg"
+            "https://raw.githubusercontent.com/sudhirwakchoure/love/main/12.jpeg",
+            "https://raw.githubusercontent.com/sudhirwakchoure/love/main/13.jpeg",
+            "https://raw.githubusercontent.com/sudhirwakchoure/love/main/14.jpeg"
+        ];
+        
+        // Video sources - FIXED: Use relative paths for web compatibility
+        const videos = [
+            "https://raw.githubusercontent.com/sudhirwakchoure/love/main/v1.mp4",
+            "https://raw.githubusercontent.com/sudhirwakchoure/love/main/v2.mp4"
         ];
         
         // Different love messages
@@ -380,11 +459,17 @@
             "Love you endlessly💫"
         ];
         
-        let imageIndex = 0;
+        let currentMediaIndex = 0;
         let messageIndex = 0;
         let messageInterval;
         let styleIndex = 0;
         let colorIndex = 0;
+        let isShowingImages = true;
+        let mediaInterval;
+        let isPlaying = true;
+        let isMuted = false;
+        let currentVideo = null;
+        let videoEnded = false;
         
         // Lovable colors for the message
         const messageColors = [
@@ -394,25 +479,91 @@
             "#e60073", "#cc0066", "#b30059"
         ];
         
-        // Different message styles - IMPROVED FOR BETTER READABILITY
+        // Different message styles
         const messageStyles = [
-            "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", // Clean and modern
-            "'Georgia', 'Times New Roman', Times, serif",      // Classic and elegant
-            "'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif", // Bold and clear
-            "'Courier New', Courier, monospace",               // Distinct and readable
-            "'Palatino Linotype', 'Book Antiqua', Palatino, serif", // Romantic and classic
-            "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif", // Clean and friendly
-            "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif", // Strong and clear
-            "'Lucida Console', 'Monaco', monospace"            // Distinct and techy
+            "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+            "'Georgia', 'Times New Roman', Times, serif",
+            "'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif",
+            "'Courier New', Courier, monospace",
+            "'Palatino Linotype', 'Book Antiqua', Palatino, serif",
+            "'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif",
+            "'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif",
+            "'Lucida Console', 'Monaco', monospace"
         ];
         
-        function changeImage() {
-            valentineImage.src = backgrounds[imageIndex];
-            imageIndex = (imageIndex + 1) % backgrounds.length;
+        function changeMedia() {
+            if (isShowingImages) {
+                // Show next image
+                currentMediaIndex = (currentMediaIndex + 1) % images.length;
+                valentineMedia.src = images[currentMediaIndex];
+                valentineMedia.style.display = 'block';
+                
+                // Hide video controls if showing images
+                playPauseBtn.style.display = 'none';
+                muteBtn.style.display = 'none';
+                nextVideoBtn.style.display = 'none';
+            }
         }
         
-        // Start image slideshow (changes every 3 seconds)
-        setInterval(changeImage, 3000);
+        function startMediaSlideshow() {
+            clearInterval(mediaInterval);
+            if (isShowingImages) {
+                // Change image every 3 seconds
+                mediaInterval = setInterval(changeMedia, 3000);
+            } else {
+                // For videos, we don't auto-change
+                // Just show the first video
+                showVideo();
+            }
+        }
+        
+        function showVideo() {
+            // Remove previous video if exists
+            if (currentVideo) {
+                currentVideo.remove();
+            }
+            
+            // Create video element
+            currentVideo = document.createElement('video');
+            currentVideo.id = 'currentVideo';
+            currentVideo.src = videos[currentMediaIndex];
+            currentVideo.controls = true;
+            currentVideo.muted = isMuted;
+            currentVideo.autoplay = true;
+            currentVideo.loop = false; // Don't loop - play once
+            currentVideo.style.width = '100%';
+            currentVideo.style.height = 'auto';
+            currentVideo.style.maxHeight = '50vh';
+            currentVideo.style.objectFit = 'contain';
+            currentVideo.style.borderRadius = '15px';
+            currentVideo.style.display = 'block';
+            
+            // Add event listener for when video ends
+            currentVideo.addEventListener('ended', handleVideoEnded);
+            
+            // Replace image with video
+            valentineMedia.style.display = 'none';
+            mediaContainer.insertBefore(currentVideo, mediaControls);
+            
+            // Show video controls
+            playPauseBtn.style.display = 'inline-block';
+            muteBtn.style.display = 'inline-block';
+            nextVideoBtn.style.display = 'inline-block';
+            
+            // Update button text based on current state
+            playPauseBtn.textContent = '⏸️ Pause';
+            muteBtn.textContent = isMuted ? '🔊 Unmute' : '🔇 Mute';
+            nextVideoBtn.textContent = '⏭️ Next Video';
+            
+            // Reset video ended flag
+            videoEnded = false;
+            isPlaying = true;
+        }
+        
+        function handleVideoEnded() {
+            videoEnded = true;
+            playPauseBtn.textContent = '▶️ Play Again';
+        }
         
         function getRandomTime() {
             return Math.floor(Math.random() * 1000) + 3000;
@@ -434,18 +585,18 @@
             
             // Apply new style with better contrast
             loveMessage.style.color = messageColors[colorIndex];
-            // Use darker background for better contrast
-            const bgColor = messageColors[colorIndex] + "30"; // 30 for more opacity
+            const bgColor = messageColors[colorIndex] + "30";
             loveMessage.style.backgroundColor = bgColor;
-            // Add stronger shadow for better readability
             loveMessage.style.boxShadow = `0 0 20px ${messageColors[colorIndex]}80`;
             loveMessage.style.fontFamily = messageStyles[styleIndex];
             
             // Also update container shadow
             messageContainer.style.boxShadow = `0 0 30px ${messageColors[colorIndex]}`;
             
-            // Change image
-            changeImage();
+            // Change media only if showing images
+            if (isShowingImages) {
+                changeMedia();
+            }
             
             // Schedule next update
             clearTimeout(messageInterval);
@@ -459,9 +610,9 @@
                 const containerWidth = Math.min(textWidth + 40, window.innerWidth * 0.9);
                 messageContainer.style.width = containerWidth + 'px';
                 
-                // Adjust image container to match message width
-                const imageWidth = Math.min(containerWidth + 40, window.innerWidth * 0.85);
-                imageContainer.style.maxWidth = imageWidth + 'px';
+                // Adjust media container to match message width
+                const mediaWidth = Math.min(containerWidth + 40, window.innerWidth * 0.85);
+                mediaContainer.style.maxWidth = mediaWidth + 'px';
             }
         }
         
@@ -469,16 +620,19 @@
             const viewportHeight = window.innerHeight;
             const totalContentHeight = document.querySelector('.container').scrollHeight;
             
-            // Set image container to reasonable size based on viewport
+            // Set media container to reasonable size based on viewport
             const viewportWidth = window.innerWidth;
-            const imageContainerWidth = Math.min(500, viewportWidth * 0.85);
-            imageContainer.style.width = imageContainerWidth + 'px';
+            const mediaContainerWidth = Math.min(500, viewportWidth * 0.85);
+            mediaContainer.style.width = mediaContainerWidth + 'px';
             
             if (totalContentHeight > viewportHeight) {
-                // Reduce image max height if needed
-                const currentMaxHeight = parseInt(getComputedStyle(valentineImage).maxHeight) || 50;
+                // Reduce media max height if needed
+                const currentMaxHeight = parseInt(getComputedStyle(valentineMedia).maxHeight) || 50;
                 const newHeight = Math.max(30, currentMaxHeight - 10);
-                valentineImage.style.maxHeight = newHeight + 'vh';
+                valentineMedia.style.maxHeight = newHeight + 'vh';
+                if (currentVideo) {
+                    currentVideo.style.maxHeight = newHeight + 'vh';
+                }
                 
                 // Reduce margins further
                 document.querySelector('.container').style.gap = '5px';
@@ -486,6 +640,81 @@
             
             // Adjust message width if visible
             adjustMessageWidth();
+        }
+        
+        // Media control functions
+        function togglePlayPause() {
+            if (currentVideo) {
+                if (videoEnded) {
+                    // If video has ended, restart it
+                    currentVideo.currentTime = 0;
+                    currentVideo.play();
+                    videoEnded = false;
+                    playPauseBtn.textContent = '⏸️ Pause';
+                    isPlaying = true;
+                } else if (isPlaying) {
+                    currentVideo.pause();
+                    playPauseBtn.textContent = '▶️ Play';
+                    isPlaying = false;
+                } else {
+                    currentVideo.play();
+                    playPauseBtn.textContent = '⏸️ Pause';
+                    isPlaying = true;
+                }
+            }
+        }
+        
+        function toggleMute() {
+            if (currentVideo) {
+                currentVideo.muted = !currentVideo.muted;
+                isMuted = currentVideo.muted;
+                muteBtn.textContent = isMuted ? '🔊 Unmute' : '🔇 Mute';
+            }
+        }
+        
+        function nextVideo() {
+            if (!isShowingImages && videos.length > 1) {
+                currentMediaIndex = (currentMediaIndex + 1) % videos.length;
+                showVideo();
+            }
+        }
+        
+        function switchToImages() {
+            isShowingImages = true;
+            mediaType.textContent = 'Currently: Images';
+            showImagesBtn.disabled = true;
+            showVideosBtn.disabled = false;
+            
+            // Remove video if it exists
+            if (currentVideo) {
+                currentVideo.remove();
+                currentVideo = null;
+            }
+            
+            // Show the image
+            valentineMedia.style.display = 'block';
+            valentineMedia.src = images[currentMediaIndex % images.length];
+            
+            // Hide video controls
+            playPauseBtn.style.display = 'none';
+            muteBtn.style.display = 'none';
+            nextVideoBtn.style.display = 'none';
+            
+            // Start image slideshow
+            startMediaSlideshow();
+        }
+        
+        function switchToVideos() {
+            isShowingImages = false;
+            mediaType.textContent = 'Currently: Videos';
+            showImagesBtn.disabled = false;
+            showVideosBtn.disabled = true;
+            
+            // Reset to first video
+            currentMediaIndex = 0;
+            
+            // Start video display
+            startMediaSlideshow();
         }
         
         // Improved mobile movement for NO button
@@ -543,10 +772,9 @@
             
             // Apply initial style with better readability
             loveMessage.style.color = messageColors[colorIndex];
-            loveMessage.style.backgroundColor = messageColors[colorIndex] + "30"; // More opacity
-            loveMessage.style.boxShadow = `0 0 20px ${messageColors[colorIndex]}80`; // Stronger shadow
+            loveMessage.style.backgroundColor = messageColors[colorIndex] + "30";
+            loveMessage.style.boxShadow = `0 0 20px ${messageColors[colorIndex]}80`;
             loveMessage.style.fontFamily = messageStyles[styleIndex];
-            // Add text shadow for better readability
             loveMessage.style.textShadow = "2px 2px 4px rgba(0, 0, 0, 0.3)";
             messageContainer.style.boxShadow = `0 0 30px ${messageColors[colorIndex]}`;
             
@@ -593,6 +821,13 @@
             }
         });
         
+        // Media control event listeners
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        muteBtn.addEventListener('click', toggleMute);
+        nextVideoBtn.addEventListener('click', nextVideo);
+        showImagesBtn.addEventListener('click', switchToImages);
+        showVideosBtn.addEventListener('click', switchToVideos);
+        
         // Adjust layout on window resize
         window.addEventListener('resize', () => {
             adjustLayout();
@@ -605,9 +840,9 @@
         
         // Preload images
         function preloadImages() {
-            for (let i = 0; i < backgrounds.length; i++) {
+            for (let i = 0; i < images.length; i++) {
                 const img = new Image();
-                img.src = backgrounds[i];
+                img.src = images[i];
                 img.onload = function() {
                     // Adjust layout after each image loads
                     adjustLayout();
@@ -617,17 +852,23 @@
         
         // Initial setup
         window.addEventListener('load', () => {
-            // Set initial image container size
+            // Set initial media container size
             const viewportWidth = window.innerWidth;
-            const imageContainerWidth = Math.min(500, viewportWidth * 0.85);
-            imageContainer.style.width = imageContainerWidth + 'px';
+            const mediaContainerWidth = Math.min(500, viewportWidth * 0.85);
+            mediaContainer.style.width = mediaContainerWidth + 'px';
             
             // Set message container initial width
             messageContainer.style.width = Math.min(300, viewportWidth * 0.7) + 'px';
             
+            // Start media slideshow
+            startMediaSlideshow();
+            
             // Adjust layout
             setTimeout(adjustLayout, 100);
-            setTimeout(adjustLayout, 500); // Another adjustment after images load
+            setTimeout(adjustLayout, 500);
+            
+            // Disable images button since we start with images
+            showImagesBtn.disabled = true;
             
             // Log device info for debugging
             console.log("Device Info:", {
@@ -641,7 +882,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Initial reasonable sizes
             const viewportWidth = window.innerWidth;
-            imageContainer.style.width = Math.min(500, viewportWidth * 0.85) + 'px';
+            mediaContainer.style.width = Math.min(500, viewportWidth * 0.85) + 'px';
             messageContainer.style.width = Math.min(300, viewportWidth * 0.7) + 'px';
         });
         
