@@ -212,11 +212,11 @@
                 /* Make sure NO button is always visible on mobile */
                 position: relative;
                 z-index: 100;
-                /* REMOVED mobile-specific styles - keep same as desktop */
-                padding: 12px 25px; /* Same as desktop */
-                font-size: 18px; /* Same as desktop */
-                min-width: auto; /* Remove mobile-specific min-width */
-                min-height: auto; /* Remove mobile-specific min-height */
+                /* FIXED: Use exact same size as desktop */
+                padding: 10px 20px !important;
+                font-size: 16px !important;
+                min-width: auto;
+                min-height: auto;
             }
             
             #messageContainer {
@@ -240,9 +240,10 @@
             }
             
             button {
-                padding: 12px 25px; /* Changed from 10px 20px to match desktop */
-                font-size: 18px; /* Changed from 16px to match desktop */
-                margin: 8px; /* Changed from 5px to match desktop */
+                /* FIXED: Use smaller size on mobile to match desktop appearance */
+                padding: 10px 20px !important;
+                font-size: 16px !important;
+                margin: 5px;
             }
             
             h1 {
@@ -276,20 +277,21 @@
             }
             
             #buttons {
-                margin: 8px auto; /* Changed from 5px to match desktop better */
+                margin: 5px auto;
                 min-height: 90px;
             }
             
             button {
-                padding: 12px 25px; /* Changed from 8px 16px to match desktop */
-                font-size: 18px; /* Changed from 15px to match desktop */
-                margin: 8px; /* Match desktop margin */
+                /* FIXED: Use smaller size on mobile to match desktop appearance */
+                padding: 8px 16px !important;
+                font-size: 15px !important;
+                margin: 5px;
             }
             
             #noBtn {
-                /* Keep same styling as desktop even on small screens */
-                padding: 12px 25px;
-                font-size: 18px;
+                /* FIXED: Use exact same styling */
+                padding: 8px 16px !important;
+                font-size: 15px !important;
                 min-width: auto;
                 min-height: auto;
             }
@@ -298,10 +300,9 @@
         @media (hover: none) and (pointer: coarse) {
             /* Styles for touch devices */
             #noBtn {
-                /* REMOVED mobile-specific button sizing - keep same as desktop */
-                /* min-width: 80px; REMOVED */
-                /* min-height: 44px; REMOVED */
-                padding: 12px 25px; /* Same as desktop */
+                /* FIXED: Remove mobile-specific sizing */
+                padding: 8px 16px !important;
+                font-size: 15px !important;
             }
             
             #noBtn:active {
